@@ -183,3 +183,11 @@ Android 的 loopback 在所有 App 间共享：Termux 监听 `127.0.0.1:<port>`�
 ## 重建
 
 见 `patches/README.md`。需要 Go 1.27.x；官方包与源码已包含在 `vendor/`。
+
+## License
+
+BSD-3-Clause，见 `LICENSE`。
+
+仓库内附带的 Tailscale 1.104.2 二进制与源码，以及由其派生的
+`bin/tailscaled-v2`，仍遵循 Tailscale 的 BSD-3-Clause 许可；来源与修改说明见
+`NOTICE` 和 `patches/`。

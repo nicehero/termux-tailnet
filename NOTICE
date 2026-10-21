@@ -1,0 +1,11 @@
+This repository bundles and/or derives from Tailscale 1.104.2:
+
+  - vendor/tailscale_1.104.2_arm64.tgz   official prebuilt binaries
+  - vendor/tailscale-1.104.2-src.tar.gz  official source
+  - bin/tailscaled-v2                    patched build (see patches/)
+  - patches/                             modifications to the official source
+
+Tailscale is Copyright (c) 2020 Tailscale Inc & contributors and is licensed
+under the BSD 3-Clause License (see LICENSE). The corresponding source is
+included in vendor/tailscale-1.104.2-src.tar.gz; the modifications are in
+patches/.
