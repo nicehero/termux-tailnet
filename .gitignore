@@ -1,0 +1,13 @@
+# Local-only notes and root-level text files (may contain secrets)
+CLAUDE.md
+/*.txt
+
+# Unused original packages and extraction output
+/*.tar
+inspect_tar/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.stackdump
+.env

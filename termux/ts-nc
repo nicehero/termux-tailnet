@@ -1,0 +1,5 @@
+#!/data/data/com.termux/files/usr/bin/bash
+# ProxyCommand helper: connect to a tailnet host/port through the running daemon.
+# The tailscale CLI must be run with an empty PATH: Go's os/exec.LookPath would
+# otherwise call faccessat2, which Android seccomp kills with SIGSYS.
+exec env PATH= "$HOME/tailscale/tailscale" --socket="${TMPDIR:-$PREFIX/tmp}/tailscaled.sock" nc "$@"

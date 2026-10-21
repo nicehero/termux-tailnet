@@ -1,0 +1,11 @@
+#!/data/data/com.termux/files/usr/bin/bash
+exec 2>&1
+ENV_FILE="/data/data/com.termux/files/home/.config/termux-tailnet/env"
+[ -f "$ENV_FILE" ] && . "$ENV_FILE"
+exec /data/data/com.termux/files/home/tailscale/tailscaled-v2 \
+  --tun=userspace-networking \
+  --socks5-server="${SOCKS5_LISTEN:-127.0.0.1:1055}" \
+  --outbound-http-proxy-listen="${HTTP_PROXY_LISTEN:-127.0.0.1:1056}" \
+  --state=/data/data/com.termux/files/home/.tailscale/tailscaled.state \
+  --statedir=/data/data/com.termux/files/home/.tailscale \
+  --socket=/data/data/com.termux/files/usr/tmp/tailscaled.sock

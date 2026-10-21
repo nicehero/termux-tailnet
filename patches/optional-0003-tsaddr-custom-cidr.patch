@@ -1,0 +1,39 @@
+--- a/net/tsaddr/tsaddr.go	2026-10-20 23:51:38.000000000 +0800
++++ b/net/tsaddr/tsaddr.go	2026-10-21 19:21:05.922960500 +0800
+@@ -9,6 +9,7 @@
+ 	"errors"
+ 	"iter"
+ 	"net/netip"
++	"os"
+ 	"slices"
+ 	"sync"
+ 
+@@ -67,6 +68,18 @@
+ 	TailscaleServiceIPv6String = "fd7a:115c:a1e0::53"
+ )
+ 
++// customTailnetRange is an optional IPv4 prefix for tailnet addresses outside
++// Tailscale's CGNAT range. Set TS_TAILNET_CIDR (e.g. 10.10.0.0/24) to enable.
++// When unset, behavior is unchanged.
++var customTailnetRange = func() netip.Prefix {
++	if s := os.Getenv("TS_TAILNET_CIDR"); s != "" {
++		if p, err := netip.ParsePrefix(s); err == nil {
++			return p
++		}
++	}
++	return netip.Prefix{}
++}()
++
+ // IsTailscaleIP reports whether IP is an IP address in a range that
+ // Tailscale assigns from.
+ func IsTailscaleIP(ip netip.Addr) bool {
+@@ -81,7 +94,8 @@
+ // Tailscale assigns from.
+ // It will always return false if ip is an "IPv4-mapped IPv6 address".
+ func IsTailscaleIPv4(ip netip.Addr) bool {
+-	return CGNATRange().Contains(ip) && !ChromeOSVMRange().Contains(ip)
++	return (CGNATRange().Contains(ip) && !ChromeOSVMRange().Contains(ip)) ||
++		(customTailnetRange.IsValid() && customTailnetRange.Contains(ip))
+ }
+ 
+ // TailscaleULARange returns the IPv6 Unique Local Address range that

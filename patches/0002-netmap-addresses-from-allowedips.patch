@@ -1,0 +1,19 @@
+--- a/control/controlclient/map.go	2026-10-20 23:51:38.000000000 +0800
++++ b/control/controlclient/map.go	2026-10-21 18:13:37.006589500 +0800
+@@ -263,6 +263,16 @@
+ 		n.HomeDERP = 0
+ 	}
+ 
++	// The target control server may send peer tailnet IPs only in AllowedIPs,
++	// leaving Addresses empty. Synthesize single-host addresses from
++	// AllowedIPs so status, ping, and peer lookups work.
++	if len(n.Addresses) == 0 {
++		for _, p := range n.AllowedIPs {
++			if p.Bits() == p.Addr().BitLen() {
++				n.Addresses = append(n.Addresses, p)
++			}
++		}
++	}
+ 	if n.AllowedIPs == nil {
+ 		n.AllowedIPs = slices.Clone(n.Addresses)
+ 	}

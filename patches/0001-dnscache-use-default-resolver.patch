@@ -1,0 +1,13 @@
+--- a/net/dnscache/dnscache.go	2026-10-20 23:51:38.000000000 +0800
++++ b/net/dnscache/dnscache.go	2026-10-21 18:02:57.817075300 +0800
+@@ -81,9 +81,7 @@
+ 
+ var zaddr netip.Addr
+ 
+-var single = &Resolver{
+-	Forward: &net.Resolver{PreferGo: preferGoResolver()},
+-}
++var single = &Resolver{}
+ 
+ func preferGoResolver() bool {
+ 	// There does not appear to be a local resolver running
